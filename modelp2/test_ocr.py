@@ -1,8 +1,9 @@
 from ocr.ocr_engine import run_ocr
 
 
-image_path = "p-test.png"
+image_path = "pan_test.webp"
 
 result = run_ocr(image_path)
-
-print(result)
+for _ in result:
+    print(_)
+    print("\n")
