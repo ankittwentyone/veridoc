@@ -49,7 +49,31 @@ Line2_labels = {
 
 #important id's -
 # id - 7,8,9,10,12,13,14,15,17,18,21,22
+def char_value(box):
+    for _ in box:
+        if _.isdigit():
+            return int(_)
+        
+        if 'A' <= _ <= 'Z':
+            return ord(_) - ord('A') + 10
+        
+        if _ == '<':
+            return 0
+        
+        raise ValueError(f"Invalid MRZ character: {_}")
 
+def calculate_check_digit(data):
+    weights = [7, 3, 1]
+
+    total = 0
+
+    for i, char in enumerate(data):
+        value = char_value(char)
+        weight = weights[i % 3]
+
+        total += value * weight
+
+    return total % 10
 
 def value_checks(results):
     sign1 = '>' 
@@ -105,6 +129,10 @@ def value_checks(results):
 
             remaining = text[5:]
             surname_end = remaining.find("<<")
+
+            if len(Line1_labels["surname"]) != surname_end:
+                document_fake = True
+            
             surname = remaining[:surname_end]
             separator = remaining[surname_end:surname_end + 2]
             remaining_after_separator = remaining[surname_end + 2:]

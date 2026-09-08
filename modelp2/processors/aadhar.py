@@ -1,33 +1,37 @@
 from modelp2.ocr.ocr_engine import run_ocr
 
 #visual fields
-vs = {
+front_labels = {
     "name":None,
     "date_of_birth":None,
     "gender":None,
-    "address":None,
     "aadhar_number":None,
-}
-
-#Mathematics related checker
-labels1 = {
-    "aadhar_number":None,
+    "aadhar_number_issued_date":None,
     "checksum_aadharno":None,
 }
 
+#Mathematics related checker
+back_labels = {
+    "address":None,
+    "all_details_date":None,
+    "aadhar_number":None
+}
 
-    
-image_path1 = "/Users/ailab/Documents/GitHub/veridoc/modelp2/aadhar1.png"
-image_path2 = "/Users/ailab/Documents/GitHub/veridoc/modelp2/aadhar2.png"
-result1 = run_ocr(image_path1)
-result2 = run_ocr(image_path2)
+front = "/Users/ailab/Documents/GitHub/veridoc/testingdata/aadhar1.png"
+back = "/Users/ailab/Documents/GitHub/veridoc/testingdata/aadhar2.png"
+
+result1 = run_ocr(front)
+result2 = run_ocr(back)
+
 for _ in result1:
     print(_)
     print("\n")
+
 for _ in result2:
     print(_)
     print("\n")
-      
+
+
 
 
 # image tampering - deepfake/copy-paste
