@@ -55,29 +55,34 @@ def value_checks(results):
     sign1 = '>' 
     sign2 = '>'
     for item in results:
+        if item["id"] == 4:
+            text_1 = item["text"]
+            vf_label["document_type"] = text_1.upper()
+
         if item["id"] == 5:
             vf_label["nationality"] = item["text"]
+            vf_label["issuing_country"] = item["text"]
 
         if item["id"] == 7:
-            pan_cardno1 = item["text"]
+            vf_label["passport_number"] = item["text"]
             
         if item["id"] == 8:
-            surname1 = item["text"]
+            vf_label["surname"] = item["text"]
 
         if item["id"] == 9:
-            firstname = item["text"]
+            vf_label["given_name"] = item["text"]
 
         if item["id"] == 10:
             temp = item["text"]
+            vf_label["date_of_birth"] = item["text"]
             temp1 = temp.split('/')
             dob = temp1[0] + temp1[1] + temp1[2][-2:]
-            vf_label["date_of_birth"] = dob
 
         if item["id"] == 12:
             vf_label["sex"] = item["text"]
 
         if item["id"] == 13:
-            vf_label["place_of_birth"]
+            vf_label["place_of_birth"] = item["text"]
 
         if item["id"] == 14:
             vf_label["place_of_issue"] = item["text"]
@@ -86,10 +91,10 @@ def value_checks(results):
             vf_label["date_of_issue"] = item["text"]
 
         if item["id"] == 18:
-            temp = item["text"]
+            vf_label["date_of_expiry"] = item["text"]
+            text = item["text"]
             temp1 = temp.split('/')
-            dob = temp1[0] + temp1[1] + temp1[2][-2:]
-            vf_label["date_of_expiry"] = dob
+            doe = temp1[0] + temp1[1] + temp1[2][-2:]
 
         if item["id"] == 21:
             text = item["text"]
@@ -114,21 +119,21 @@ def value_checks(results):
 
         if item["id"] == 22:
             text1 = item["text"]
-            Line2_labels["passport_number"] = text[:8]       # SP003369
+            Line2_labels["passport_number"] = text1[:8]       # SP003369
             sign1 = text[8]        # <
-            Line2_labels["passport_number_check_digit"] = text[9]        # 2
-            Line2_labels["nationality"] = text[10:13]    #IND
-            reverseddate = text[13:19] 
+            Line2_labels["passport_number_check_digit"] = text1[9]        # 2
+            Line2_labels["nationality"] = text1[10:13]    #IND
+            reverseddate = text1[13:19] 
             Line2_labels["birth_date"] =  reverseddate[::-1]  # 940701
-            Line2_labels["birth_date_check_digit"] = text[19]       # 5
-            Line2_labels["gender_sex"] = text[20]       # F
-            reversedexpdate = text[21:27]    
+            Line2_labels["birth_date_check_digit"] = text1[19]       # 5
+            Line2_labels["gender_sex"] = text1[20]       # F
+            reversedexpdate = text1[21:27]    
             Line2_labels["expiration_date"] = reversedexpdate[::-1] # 340902
-            Line2_labels["expiration_date_check_digit"] = text[27]       # 8
-            Line2_labels["o&_pID"] = text[28:41]    # 1065269546124
-            sign2 = text[42] #<
-            Line2_labels["o&_pID_check_digit"] = text[42]       # 7
-            Line2_labels["overall_check_digit"] = text[43]       # 8
+            Line2_labels["expiration_date_check_digit"] = text1[27]       # 8
+            Line2_labels["o&_pID"] = text1[28:41]    # 1065269546124
+            sign2 = text1[42] #<
+            Line2_labels["o&_pID_check_digit"] = text1[42]       # 7
+            Line2_labels["overall_check_digit"] = text1[43]       # 8
 
         if sign1 == '>' and sign2 == '>':
             document_fake = False
@@ -166,7 +171,7 @@ def value_checks(results):
     else:
         document_fake = True
 
-    if vf_label["date_of_expiry"] == Line2_labels["expiration_date"]:
+    if doe == Line2_labels["expiration_date"]:
         document_fake = False
     else:
         document_fake = True
@@ -182,7 +187,7 @@ def value_checks(results):
         elif _ != None and document_fake == False:
             return("document is not fake")
 
-image_path = "/Users/ailab/Documents/GitHub/veridoc/modelp2/p-test.png"
+image_path = "/Users/ailab/Documents/GitHub/veridoc/modelp2/p-test2.png"
 result = run_ocr(image_path)
 for _ in result:
     print(_)
@@ -190,11 +195,13 @@ for _ in result:
 
 
 print(value_checks(result))
+print(vf_label)
+print("\n")
 print(Line1_labels)
 print("\n")
 print(Line2_labels)
-print("\n")
-print(vf_label)
+
+
 
         
                     
