@@ -1,7 +1,7 @@
 from paddleocr import PaddleOCR
 
 ocr = PaddleOCR(
-    lang="hi"
+    lang="en"
 )
 
 def run_ocr(image_path):
